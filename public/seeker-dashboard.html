@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Seeker Dashboard - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" id="welcome-seeker-title">Job Seeker Dashboard</h1>
+        <p class="db-subtitle">Track your application status, manage resumes, and view updates.</p>
+      </div>
+      <div>
+        <a href="/profile.html" class="btn btn-primary">Edit Profile Settings</a>
+      </div>
+    </div>
+
+    <!-- Dashboard layout with sidebar -->
+    <div class="dashboard-grid">
+      
+      <!-- Left sidebar navigation -->
+      <aside class="db-sidebar">
+        <div class="glass-card" style="padding: 1.5rem;">
+          <ul class="db-sidebar-menu">
+            <li class="db-menu-item active"><a href="/seeker-dashboard.html">📊 Applications Dashboard</a></li>
+            <li class="db-menu-item"><a href="/profile.html">👤 Personal Profile</a></li>
+            <li class="db-menu-item"><a href="/jobs.html">🔍 Search Jobs</a></li>
+            <li class="db-menu-item"><a href="/index.html">🏡 Home Page</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Right primary content block -->
+      <section style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Metrics stats container -->
+        <div class="metrics-grid">
+          <div class="metric-card" onclick="scrollToApps('all')" style="cursor: pointer;" title="View all applications">
+            <div class="metric-icon">📁</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-total-apps">0</span>
+              <span class="metric-label">Applications</span>
+            </div>
+          </div>
+          <div class="metric-card" onclick="scrollToApps('pending')" style="cursor: pointer;" title="View pending applications">
+            <div class="metric-icon">⏳</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-pending-apps">0</span>
+              <span class="metric-label">Pending Review</span>
+            </div>
+          </div>
+          <div class="metric-card" onclick="scrollToApps('shortlisted')" style="cursor: pointer;" title="View shortlisted applications">
+            <div class="metric-icon" style="color: var(--success-color); background: rgba(16, 185, 129, 0.1);">🏆</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-shortlist-apps">0</span>
+              <span class="metric-label">Shortlisted</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lower grid combining: (1) Application list, (2) Notification feed -->
+        <div style="display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start;" id="seeker-dual-grid">
+          
+          <!-- Application list panel -->
+          <div class="glass-card" id="applications-panel" style="padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem;">
+              <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700;">
+                Your Applications
+              </h3>
+              <select id="app-status-filter" onchange="filterApplications(this.value)" style="background: #0f172a; border: 1px solid var(--card-border); color: #fff; padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer;">
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="shortlisted">Shortlisted</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+            
+            <div id="applications-list-container">
+              <!-- Loading fallback -->
+              <p style="color: var(--text-secondary); text-align: center;">Fetching applied jobs...</p>
+            </div>
+          </div>
+
+          <!-- Real-time notifications sidebar panel -->
+          <div class="glass-card" style="padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">
+              <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700;">
+                Notifications
+              </h3>
+              <button id="mark-notifications-btn" class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Mark all read</button>
+            </div>
+
+            <div id="notifications-list-container" class="notifications-list">
+              <p style="color: var(--text-secondary); text-align: center; font-size: 0.9rem;">No new notifications</p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script>
+    function scrollToApps(status) {
+      // Set the filter dropdown
+      const filterSelect = document.getElementById('app-status-filter');
+      if (filterSelect) {
+        filterSelect.value = status;
+        filterApplications(status);
+      }
+
+      // Smooth scroll to applications panel
+      const panel = document.getElementById('applications-panel');
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Highlight the panel briefly with a glow effect
+        panel.style.transition = 'box-shadow 0.3s ease';
+        panel.style.boxShadow = '0 0 0 2px var(--primary-color), 0 8px 30px rgba(99,102,241,0.3)';
+        setTimeout(() => {
+          panel.style.boxShadow = '';
+        }, 1800);
+      }
+    }
+
+    function filterApplications(status) {
+      const container = document.getElementById('applications-list-container');
+      if (!container) return;
+
+      const cards = container.querySelectorAll('[data-status]');
+      cards.forEach(card => {
+        if (status === 'all' || card.getAttribute('data-status') === status) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show empty state if no matches
+      const visible = container.querySelectorAll('[data-status]:not([style*="display: none"])');
+      let emptyMsg = container.querySelector('.filter-empty-msg');
+      if (visible.length === 0 && cards.length > 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('p');
+          emptyMsg.className = 'filter-empty-msg';
+          emptyMsg.style.cssText = 'color: var(--text-secondary); text-align: center; padding: 1rem 0;';
+          container.appendChild(emptyMsg);
+        }
+        emptyMsg.textContent = `No ${status} applications found.`;
+        emptyMsg.style.display = 'block';
+      } else if (emptyMsg) {
+        emptyMsg.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

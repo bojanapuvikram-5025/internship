@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Details - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <style>
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 2rem;
+    }
+    .details-block {
+      margin-bottom: 2rem;
+    }
+    .details-title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 0.5rem;
+      color: #fff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-content {
+      max-width: 500px;
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color var(--transition-speed) ease;
+    }
+    .close-modal:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div id="job-details-loading" style="text-align: center; padding: 4rem 1rem;">
+      <div style="font-size: 1.5rem; margin-bottom: 1rem;">⏳</div>
+      <p style="color: var(--text-secondary);">Loading premier job details...</p>
+    </div>
+
+    <div id="job-details-content" class="details-grid" style="display: none;">
+      <!-- Main Details Block -->
+      <section class="glass-card" style="padding: 2.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 id="job-title" style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem;"></h1>
+            <div id="job-company" style="font-size: 1.1rem; color: var(--primary-color); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;"></div>
+          </div>
+          <div id="job-badges" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+        </div>
+
+        <div class="job-card-meta" id="job-metadata" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 1.5rem; margin-bottom: 2rem;"></div>
+
+        <!-- Description -->
+        <div class="details-block">
+          <h2 class="details-title">Job Description</h2>
+          <p id="job-description" style="color: var(--text-secondary); white-space: pre-line;"></p>
+        </div>
+
+        <!-- Qualifications -->
+        <div class="details-block">
+          <h2 class="details-title">Required Qualifications</h2>
+          <p id="job-qualifications" style="color: var(--text-secondary); white-space: pre-line;"></p>
+        </div>
+
+        <!-- Responsibilities -->
+        <div class="details-block">
+          <h2 class="details-title">Key Responsibilities</h2>
+          <p id="job-responsibilities" style="color: var(--text-secondary); white-space: pre-line;"></p>
+        </div>
+      </section>
+
+      <!-- Action Card Sidebar -->
+      <aside style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="glass-card" style="padding: 1.75rem;">
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Listing Summary</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Location</div>
+              <div id="summary-location" style="font-weight: 600;"></div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Job Type</div>
+              <div id="summary-type" style="font-weight: 600;"></div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Experience level</div>
+              <div id="summary-experience" style="font-weight: 600;"></div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Salary Range</div>
+              <div id="summary-salary" style="font-weight: 600; color: var(--primary-color);"></div>
+            </div>
+          </div>
+
+          <div id="application-action-container">
+            <button id="apply-btn" class="btn btn-primary" style="width: 100%;">Apply For Job</button>
+          </div>
+        </div>
+
+        <!-- Company details sidebar card -->
+        <div class="glass-card" style="padding: 1.75rem;" id="company-sidebar-card">
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">About the Company</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <div>
+              <span style="color: var(--text-muted);">Industry:</span>
+              <strong id="company-industry" style="margin-left: 0.25rem;">N/A</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Website:</span>
+              <a id="company-website" href="#" target="_blank" style="margin-left: 0.25rem; color: var(--primary-color); font-weight: 600;">N/A</a>
+            </div>
+            <p id="company-desc" style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.4;"></p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Apply Modal (Job Seeker) -->
+  <div class="modal" id="apply-modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-apply-modal">&times;</span>
+      <h3 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Apply for this Position</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Select your submission method. You can upload a new customized resume or attach the default one saved in your profile settings.</p>
+      
+      <form id="apply-form">
+        <input type="hidden" id="apply-job-id">
+        
+        <!-- Use Profile Resume Checkbox -->
+        <div style="margin-bottom: 1.25rem;" id="profile-resume-option">
+          <label class="form-checkbox">
+            <input type="checkbox" id="use-profile-resume" checked>
+            <span style="font-size: 0.95rem; font-weight: 500;">Submit resume saved in profile</span>
+          </label>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-left: 1.6rem; margin-top: 0.15rem;" id="profile-resume-status">Checking profile resume...</div>
+        </div>
+
+        <!-- Custom Upload Section -->
+        <div class="form-group" id="custom-resume-upload" style="display: none; margin-bottom: 1.5rem;">
+          <label class="form-label">Upload New Resume</label>
+          <div class="file-upload-wrapper">
+            <input type="file" id="apply-resume" class="file-upload-input" accept=".pdf,.doc,.docx">
+            <div class="file-upload-trigger">
+              <span class="file-upload-icon">📄</span>
+              <span class="file-upload-text">Click or drag resume file</span>
+              <span class="file-upload-hint">Supported formats: PDF, DOC, DOCX up to 5MB</span>
+            </div>
+            <div class="file-selected-name" id="apply-file-name"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Secure Application</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/jobs.js"></script>
+</body>
+</html>

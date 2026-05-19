@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <div class="glass-card">
+        <h2 class="form-title">Join Job Portal</h2>
+        <p class="form-subtitle">Create a secure profile today to discover career opportunities or hire elite specialists.</p>
+        
+        <form id="register-form">
+          <!-- Role selector buttons -->
+          <div class="form-label" style="margin-bottom: 0.5rem;">Register As</div>
+          <div class="role-selector">
+            <div class="role-option active" id="role-seeker" data-role="seeker">
+              <div class="role-option-title">Job Seeker</div>
+              <div class="role-option-desc">Apply online & track applications</div>
+            </div>
+            <div class="role-option" id="role-employer" data-role="employer">
+              <div class="role-option-title">Employer</div>
+              <div class="role-option-desc">Post jobs & recruit talent</div>
+            </div>
+          </div>
+          
+          <input type="hidden" id="register-role" value="seeker">
+
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" class="form-control" placeholder="Jane Doe" required>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" class="form-control" placeholder="jane@example.com" required>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password</label>
+            <div style="position: relative;">
+              <input type="password" id="reg-password" class="form-control" placeholder="••••••••" minlength="6" required style="padding-right: 2.5rem; width: 100%;">
+              <button type="button" class="toggle-password-btn" data-target="reg-password" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.6); padding: 0.2rem; font-size: 1.1rem; display: flex; align-items: center; outline: none; transition: color 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width: 1.25rem; height: 1.25rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+            <div style="position: relative;">
+              <input type="password" id="reg-confirm-password" class="form-control" placeholder="••••••••" minlength="6" required style="padding-right: 2.5rem; width: 100%;">
+              <button type="button" class="toggle-password-btn" data-target="reg-confirm-password" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.6); padding: 0.2rem; font-size: 1.1rem; display: flex; align-items: center; outline: none; transition: color 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width: 1.25rem; height: 1.25rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Error Message Display -->
+          <div id="error-message" style="color: var(--accent-color); font-size: 0.85rem; margin-bottom: 1rem; display: none; font-weight: 600;"></div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Create Secure Account</button>
+        </form>
+
+        <div class="form-footer">
+          Already have an account? <a href="/login.html">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+</body>
+</html>

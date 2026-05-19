@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" id="form-main-title">Post a New Job Opening</h1>
+        <p class="db-subtitle">Enter listing credentials, salary ranges, candidate expectations, and descriptions.</p>
+      </div>
+      <div>
+        <a href="/employer-dashboard.html" class="btn btn-secondary">🔙 Recruiter Dashboard</a>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <aside class="db-sidebar">
+        <div class="glass-card" style="padding: 1.5rem;">
+          <ul class="db-sidebar-menu">
+            <li class="db-menu-item"><a href="/employer-dashboard.html">📊 Recruiting Overview</a></li>
+            <li class="db-menu-item active" id="sidebar-post-item"><a href="/post-job.html">➕ Post a New Job</a></li>
+            <li class="db-menu-item"><a href="/profile.html">🏢 Company Profile</a></li>
+            <li class="db-menu-item"><a href="/index.html">🏡 Home Page</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Form Section -->
+      <section class="glass-card" style="padding: 2.5rem;">
+        <form id="job-post-form">
+          <!-- Job Title -->
+          <div class="form-group">
+            <label class="form-label" for="job-post-title">Job Title</label>
+            <input type="text" id="job-post-title" class="form-control" placeholder="e.g. Senior Full-Stack Node Developer" required>
+          </div>
+
+          <!-- Location & Type -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="job-post-location">Location</label>
+              <input type="text" id="job-post-location" class="form-control" placeholder="e.g. San Francisco, CA or Remote" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="job-post-type">Job Type</label>
+              <select id="job-post-type" class="form-control" required>
+                <option value="" disabled selected>Select Job Type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Remote">Remote</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Salary min-max -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="job-post-salmin">Minimum Annual Salary ($)</label>
+              <input type="number" id="job-post-salmin" class="form-control" placeholder="e.g. 80000" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="job-post-salmax">Maximum Annual Salary ($)</label>
+              <input type="number" id="job-post-salmax" class="form-control" placeholder="e.g. 120000" min="0" required>
+            </div>
+          </div>
+
+          <!-- Experience Level -->
+          <div class="form-group">
+            <label class="form-label" for="job-post-experience">Required Experience Level</label>
+            <select id="job-post-experience" class="form-control" required>
+              <option value="" disabled selected>Select Experience Level</option>
+              <option value="Entry-level">Entry-level</option>
+              <option value="Mid-level">Mid-level</option>
+              <option value="Senior-level">Senior-level</option>
+            </select>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 2rem 0;">
+
+          <!-- Description Textarea -->
+          <div class="form-group">
+            <label class="form-label" for="job-post-desc">Detailed Description</label>
+            <textarea id="job-post-desc" class="form-control" rows="6" placeholder="Provide a thorough summary of the job opening, the organizational structure, and culture..." required></textarea>
+          </div>
+
+          <!-- Qualifications Textarea -->
+          <div class="form-group">
+            <label class="form-label" for="job-post-qual">Required Qualifications (One per line)</label>
+            <textarea id="job-post-qual" class="form-control" rows="5" placeholder="B.S. in Computer Science or related engineering degree&#10;3+ years coding Node.js REST APIs&#10;Comfortable writing MongoDB queries" required></textarea>
+          </div>
+
+          <!-- Responsibilities Textarea -->
+          <div class="form-group">
+            <label class="form-label" for="job-post-resp">Core Responsibilities (One per line)</label>
+            <textarea id="job-post-resp" class="form-control" rows="5" placeholder="Design, develop, and maintain clean scalable Node endpoints&#10;Participate in design sessions and write architectural outlines&#10;Perform thorough code reviews and test automation" required></textarea>
+          </div>
+
+          <div style="margin-top: 2.5rem;">
+            <button type="submit" id="submit-post-btn" class="btn btn-primary" style="width: 100%;">Create Live Listing</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

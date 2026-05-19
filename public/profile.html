@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Profile - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="db-header">
+      <div>
+        <h1 class="db-title">Profile Settings</h1>
+        <p class="db-subtitle">Update your personal credentials, contact phone, or corporate profile data.</p>
+      </div>
+      <div>
+        <a id="dashboard-back-btn" href="#" class="btn btn-secondary">🔙 Back to Dashboard</a>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <aside class="db-sidebar">
+        <div class="glass-card" style="padding: 1.5rem;">
+          <ul class="db-sidebar-menu">
+            <li class="db-menu-item" id="sidebar-dashboard-link"><a href="#">📊 Applications Dashboard</a></li>
+            <li class="db-menu-item active"><a href="/profile.html">👤 Personal Profile</a></li>
+            <li class="db-menu-item"><a href="/jobs.html">🔍 Search Jobs</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Profile Form Panel -->
+      <section class="glass-card" style="padding: 2.5rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;" id="profile-section-header">
+          Your Credentials
+        </h3>
+
+        <form id="profile-form" enctype="multipart/form-data">
+          <!-- Shared Account Fields -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prof-name">Full Name</label>
+              <input type="text" id="prof-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prof-email">Email Address (Read Only)</label>
+              <input type="email" id="prof-email" class="form-control" disabled style="background: rgba(255,255,255,0.01); color: var(--text-muted); border-color: transparent;">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prof-phone">Phone Number</label>
+              <input type="tel" id="prof-phone" class="form-control" placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="form-group" id="role-display-group">
+              <label class="form-label">Account Role</label>
+              <input type="text" id="prof-role" class="form-control" disabled style="background: rgba(255,255,255,0.01); color: var(--text-muted); border-color: transparent; text-transform: capitalize;">
+            </div>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 2rem 0;">
+
+          <!-- DYNAMIC SEGMENT: JOB SEEKER PROFILE FIELDS -->
+          <div id="seeker-fields-section" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="prof-skills">Skills (Comma Separated)</label>
+              <input type="text" id="prof-skills" class="form-control" placeholder="Node.js, JavaScript, MongoDB, CSS3">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prof-education">Education Details</label>
+              <input type="text" id="prof-education" class="form-control" placeholder="B.S. in Computer Science, University of California">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prof-experience">Experience details</label>
+              <textarea id="prof-experience" class="form-control" rows="4" placeholder="Describe your prior work history, job roles, achievements..."></textarea>
+            </div>
+
+            <!-- Resume Upload Wrapper -->
+            <div class="form-group" style="margin-top: 1.5rem;">
+              <label class="form-label">Upload CV / Resume</label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="prof-resume" name="resume" class="file-upload-input" accept=".pdf,.doc,.docx">
+                <div class="file-upload-trigger">
+                  <span class="file-upload-icon">📄</span>
+                  <span class="file-upload-text">Click or drag resume file to update</span>
+                  <span class="file-upload-hint">Supported formats: PDF, DOC, DOCX up to 5MB</span>
+                </div>
+                <div class="file-selected-name" id="prof-file-name"></div>
+              </div>
+              <div style="margin-top: 0.5rem; font-size: 0.9rem;" id="current-resume-display"></div>
+            </div>
+          </div>
+
+          <!-- DYNAMIC SEGMENT: EMPLOYER PROFILE FIELDS -->
+          <div id="employer-fields-section" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="prof-company">Company Name</label>
+                <input type="text" id="prof-company" class="form-control" placeholder="Acme Corporation">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="prof-industry">Industry Sector</label>
+                <input type="text" id="prof-industry" class="form-control" placeholder="Technology, Healthcare, Finance">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prof-website">Company Website URL</label>
+              <input type="url" id="prof-website" class="form-control" placeholder="https://example.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prof-comp-desc">Company Description</label>
+              <textarea id="prof-comp-desc" class="form-control" rows="5" placeholder="Tell candidates about your company mission, workplace culture, and core values..."></textarea>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Save Profile Settings</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Jobs - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link active">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="db-header">
+      <div>
+        <h1 class="db-title">Explore Opportunities</h1>
+        <p class="db-subtitle">Search, filter and find premium job positions across leading industries.</p>
+      </div>
+    </div>
+
+    <div class="jobs-layout">
+      <!-- Search & Filters Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-section-title">Refine Search</div>
+        
+        <form id="filters-form">
+          <!-- Keyword -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Keyword</label>
+            <input type="text" id="filter-keyword" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff; width: 100%; font-family: var(--font-body); font-size: 0.9rem;" placeholder="e.g. Node, UI/UX, Google">
+          </div>
+
+          <!-- Location -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Location</label>
+            <input type="text" id="filter-location" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff; width: 100%; font-family: var(--font-body); font-size: 0.9rem;" placeholder="e.g. New York, Remote">
+          </div>
+
+          <!-- Job Type -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Job Type</label>
+            <select id="filter-jobtype" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff; width: 100%; font-family: var(--font-body); font-size: 0.9rem; outline: none;">
+              <option value="" style="background: #0f172a;">All Job Types</option>
+              <option value="Full-time" style="background: #0f172a;">Full-time</option>
+              <option value="Part-time" style="background: #0f172a;">Part-time</option>
+              <option value="Contract" style="background: #0f172a;">Contract</option>
+              <option value="Remote" style="background: #0f172a;">Remote</option>
+              <option value="Internship" style="background: #0f172a;">Internship</option>
+            </select>
+          </div>
+
+          <!-- Experience Level -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Experience Level</label>
+            <select id="filter-experience" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff; width: 100%; font-family: var(--font-body); font-size: 0.9rem; outline: none;">
+              <option value="" style="background: #0f172a;">All Levels</option>
+              <option value="Entry-level" style="background: #0f172a;">Entry-level</option>
+              <option value="Mid-level" style="background: #0f172a;">Mid-level</option>
+              <option value="Senior-level" style="background: #0f172a;">Senior-level</option>
+            </select>
+          </div>
+
+          <!-- Min Salary -->
+          <div style="margin-bottom: 1.5rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Minimum Salary ($)</label>
+            <input type="number" id="filter-salary" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem 0.8rem; color: #fff; width: 100%; font-family: var(--font-body); font-size: 0.9rem;" placeholder="e.g. 50000">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.6rem 1rem; border-radius: 8px;">Apply Filters</button>
+          <button type="button" id="reset-filters" class="btn btn-secondary" style="width: 100%; padding: 0.6rem 1rem; border-radius: 8px; margin-top: 0.5rem;">Reset All</button>
+        </form>
+      </aside>
+
+      <!-- Active Job Listings -->
+      <section>
+        <div id="job-listings-container" class="job-list">
+          <!-- Loading state placeholder -->
+          <div style="text-align: center; padding: 4rem 1rem;">
+            <div style="font-size: 1.5rem; margin-bottom: 1rem;">⏳</div>
+            <p style="color: var(--text-secondary);">Loading premier opportunities...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/jobs.js"></script>
+</body>
+</html>

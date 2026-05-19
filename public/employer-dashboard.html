@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employer Dashboard - Job Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <style>
+    .tab-nav {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 0.5rem;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      transition: all var(--transition-speed) ease;
+      position: relative;
+    }
+    .tab-btn:hover {
+      color: #fff;
+    }
+    .tab-btn.active {
+      color: var(--primary-color);
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -0.6rem;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 30px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="db-header">
+      <div>
+        <h1 class="db-title" id="welcome-employer-title">Recruiter Dashboard</h1>
+        <p class="db-subtitle">Post new job vacancies, evaluate incoming candidates, and manage profile data.</p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="/post-job.html" class="btn btn-primary">➕ Post New Job</a>
+        <a href="/profile.html" class="btn btn-secondary">Update Profile</a>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <aside class="db-sidebar">
+        <div class="glass-card" style="padding: 1.5rem;">
+          <ul class="db-sidebar-menu">
+            <li class="db-menu-item active"><a href="/employer-dashboard.html">📊 Recruiting Overview</a></li>
+            <li class="db-menu-item"><a href="/post-job.html">➕ Post a New Job</a></li>
+            <li class="db-menu-item"><a href="/profile.html">🏢 Company Profile</a></li>
+            <li class="db-menu-item"><a href="/index.html">🏡 Home Page</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Panel content -->
+      <section style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon">💼</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-total-jobs">0</span>
+              <span class="metric-label">Jobs Posted</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">👥</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-total-applicants">0</span>
+              <span class="metric-label">Total Applicants</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="color: var(--success-color); background: rgba(16, 185, 129, 0.1);">🏆</div>
+            <div class="metric-info">
+              <span class="metric-value" id="stat-shortlisted-candidates">0</span>
+              <span class="metric-label">Shortlisted</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; align-items: start;">
+          
+          <!-- Tabbed Panel (Manage Listings & Applicants) -->
+          <div class="glass-card" style="padding: 2rem;">
+            
+            <div class="tab-nav">
+              <button class="tab-btn active" id="tab-listings-btn" data-tab="listings-tab">Manage Job Listings</button>
+              <button class="tab-btn" id="tab-applicants-btn" data-tab="applicants-tab">Incoming Applicants</button>
+            </div>
+
+            <!-- Tab 1: Listings -->
+            <div class="tab-content active" id="listings-tab">
+              <div id="listings-container">
+                <p style="color: var(--text-secondary); text-align: center;">Fetching active job posts...</p>
+              </div>
+            </div>
+
+            <!-- Tab 2: Applicants -->
+            <div class="tab-content" id="applicants-tab">
+              <div id="applicants-container">
+                <p style="color: var(--text-secondary); text-align: center;">Fetching candidate applications...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Notification sidebar -->
+          <div class="glass-card" style="padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">
+              <h3 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700;">
+                Recruiting Alerts
+              </h3>
+              <button id="mark-notifications-btn" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; border-radius: 6px;">Mark Read</button>
+            </div>
+            <div id="notifications-list-container" class="notifications-list">
+              <p style="color: var(--text-secondary); text-align: center; font-size: 0.95rem;">No new notifications</p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Contact Seeker Modal -->
+  <div id="contact-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#1e293b; border:1px solid #334155; border-radius:16px; padding:2rem; width:100%; max-width:480px; margin:1rem; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <h3 style="font-family:var(--font-heading); font-size:1.3rem; font-weight:700;">💬 Contact Seeker</h3>
+        <button onclick="closeContactModal()" style="background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <div id="contact-seeker-info" style="margin-bottom:1.25rem; padding:0.75rem 1rem; background:#0f172a; border-radius:10px; border:1px solid #334155; font-size:0.9rem; color:var(--text-secondary);"></div>
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:0.8rem; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:0.5rem;">Your Message</label>
+        <textarea id="contact-message-input" rows="4" placeholder="Write your message to the applicant..." style="width:100%; background:#0f172a; border:1px solid #334155; border-radius:10px; padding:0.85rem; color:#fff; font-family:var(--font-body); font-size:0.95rem; resize:vertical; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--primary-color)'" onblur="this.style.borderColor='#334155'"></textarea>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button id="send-portal-msg-btn" onclick="sendPortalMessage()" class="btn btn-primary" style="flex:1;">📬 Send via Portal</button>
+        <a id="send-email-btn" href="#" target="_blank" class="btn btn-secondary" style="flex:1; text-align:center;" onclick="buildEmailLink()">📧 Open Email App</a>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem; text-align:center;">Portal message appears in the seeker's Notifications. Email opens your mail client.</p>
+    </div>
+  </div>
+
+  <!-- Shared Scripts -->
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script>
+    let _contactSeekerId = '';
+    let _contactSeekerEmail = '';
+    let _contactSeekerName = '';
+    let _contactJobTitle = '';
+
+    function contactSeeker(seekerId, email, name, jobTitle) {
+      _contactSeekerId = seekerId;
+      _contactSeekerEmail = email;
+      _contactSeekerName = name;
+      _contactJobTitle = jobTitle;
+
+      document.getElementById('contact-seeker-info').innerHTML = `
+        <strong>${name}</strong><br>
+        📧 <a href="mailto:${email}" style="color:var(--primary-color);">${email}</a><br>
+        <span style="font-size:0.8rem;">Applying for: <strong>${jobTitle}</strong></span>
+      `;
+      document.getElementById('contact-message-input').value = '';
+      document.getElementById('contact-modal').style.display = 'flex';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contact-modal').style.display = 'none';
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('contact-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeContactModal();
+    });
+
+    async function sendPortalMessage() {
+      const message = document.getElementById('contact-message-input').value.trim();
+      if (!message) {
+        showToast('Please write a message before sending.', 'error');
+        return;
+      }
+      if (!_contactSeekerId) {
+        showToast('Cannot identify seeker. Try again.', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('send-portal-msg-btn');
+      btn.disabled = true;
+      btn.innerText = 'Sending...';
+
+      try {
+        const res = await fetch('/api/notifications/send', {
+          method: 'POST',
+          headers: { ...getAuthHeaders() },
+          body: JSON.stringify({ seekerId: _contactSeekerId, message })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showToast('Message sent to seeker successfully! ✅');
+          closeContactModal();
+        } else {
+          showToast(data.message || 'Failed to send message', 'error');
+        }
+      } catch (err) {
+        showToast('Server connection error', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '📬 Send via Portal';
+      }
+    }
+
+    function buildEmailLink() {
+      const message = document.getElementById('contact-message-input').value.trim();
+      const subject = encodeURIComponent(`Regarding your application for ${_contactJobTitle}`);
+      const body = encodeURIComponent(message || `Dear ${_contactSeekerName},\n\nWe reviewed your application for the ${_contactJobTitle} role.\n\nBest regards`);
+      document.getElementById('send-email-btn').href = `mailto:${_contactSeekerEmail}?subject=${subject}&body=${body}`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Portal - Premium Recruiting Platform</title>
+  <!-- SEO tags -->
+  <meta name="description" content="Find the career of your dreams or recruit top stellar talent on Job Portal, the premium job listing portal with real-time status updates and elegant glassmorphic interface.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  
+  <!-- Dynamic Navbar -->
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <ul class="nav-links" id="navbar-links">
+        <li><a href="/index.html" class="nav-link active">Home</a></li>
+        <li><a href="/jobs.html" class="nav-link">Browse Jobs</a></li>
+        <li><a href="/login.html" class="nav-btn-secondary">Login</a></li>
+        <li><a href="/register.html" class="nav-btn">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">Elevate your recruitment game</div>
+      <h1>Connect. Apply.<br>Succeed on Job Portal.</h1>
+      <p>Discover Thousands of Curated Jobs Posted by Top-tier Companies or Hire Stellar Candidates with Real-time In-App Tracking.</p>
+      
+      <div class="hero-actions">
+        <a href="/jobs.html" class="btn btn-primary">Find Your Dream Job</a>
+        <a href="/register.html" id="hero-employer-btn" class="btn btn-secondary">Post a Job Opening</a>
+      </div>
+    </section>
+
+    <!-- Visual Highlights / Metrics Showcase -->
+    <section class="glass-card" style="margin-bottom: 4rem;">
+      <h2 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 2rem; text-align: center; font-weight: 700;">
+        Why Professionals Choose Job Portal
+      </h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: center;">
+        <div>
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚀</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600;">Real-time Status Updates</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Track every application stage from Pending, Shortlisted, to Decided, with instant dashboard notifications.</p>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600;">Verified Company Profiles</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Employers list full corporate websites, phone contacts, and industries so applicants can research securely.</p>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔒</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600;">JWT-Secured Authorization</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">All profile edits, resume uploads, and candidate shortlists are secured behind high-end encrypted tokens.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="/index.html" class="logo-container">
+        <div class="logo-icon">J</div>
+        <span class="logo-text">Job Portal</span>
+      </a>
+      <p class="footer-copy">&copy; 2026 Job Portal Designed by vikram</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Load Shared Scripts -->
+  <script src="/js/auth.js"></script>
+</body>
+</html>
