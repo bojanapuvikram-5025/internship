@@ -1,33 +1,14 @@
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+const File = require('../models/File');
 
-// Ensure uploads folder exists
-const uploadDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Set storage engine
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  }
-});
+// Use memory storage to avoid writing to read-only disk on environments like Vercel
+const storage = multer.memoryStorage();
 
 // Check file type
 const fileFilter = (req, file, cb) => {
-  // Allowed file extensions
   const filetypes = /pdf|doc|docx|png|jpg|jpeg/;
-  // Check extension
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
   const mimetype = filetypes.test(file.mimetype);
 
   if (mimetype && extname) {
@@ -37,11 +18,45 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Initialize upload
-const upload = multer({
+const multerInstance = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: fileFilter
 });
+
+const upload = {
+  single: (fieldname) => {
+    const originalMiddleware = multerInstance.single(fieldname);
+    return (req, res, next) => {
+      originalMiddleware(req, res, async (err) => {
+        if (err) {
+          return next(err);
+        }
+        
+        // If a file was successfully uploaded to memory
+        if (req.file) {
+          try {
+            const filename = `${req.file.fieldname}-${Date.now()}${path.extname(req.file.originalname)}`;
+            
+            // Save file data to MongoDB
+            const fileDoc = new File({
+              filename: filename,
+              contentType: req.file.mimetype,
+              data: req.file.buffer
+            });
+            await fileDoc.save();
+            
+            // Set the filename property so that downstream controllers can access it normally
+            req.file.filename = filename;
+          } catch (dbErr) {
+            return next(dbErr);
+          }
+        }
+        
+        next();
+      });
+    };
+  }
+};
 
 module.exports = upload;

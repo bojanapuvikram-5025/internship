@@ -20,7 +20,22 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static assets from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve uploaded files statically
+// Serve uploaded files from MongoDB (with fallback to local directory)
+const File = require('./backend/models/File');
+app.get('/uploads/:filename', async (req, res, next) => {
+  try {
+    const file = await File.findOne({ filename: req.params.filename });
+    if (file) {
+      res.set('Content-Type', file.contentType);
+      return res.send(file.data);
+    }
+    next();
+  } catch (error) {
+    next();
+  }
+});
+
+// Serve uploaded files statically (fallback)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes

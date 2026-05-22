@@ -47,12 +47,24 @@ function updateNavbar() {
   if (!navContainer) return;
 
   let navHTML = '';
+  let parsedUser = null;
 
   if (token && userString) {
-    const user = JSON.parse(userString);
+    try {
+      parsedUser = JSON.parse(userString);
+    } catch (e) {
+      console.error('Failed to parse user string from localStorage:', e);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+  }
+
+  if (token && parsedUser) {
+    const userName = parsedUser.name || 'User';
+    const initialChar = userName.charAt(0).toUpperCase();
     navHTML = `
       <li class="user-profile-nav">
-        <div class="nav-avatar" title="${user.name}">${user.name.charAt(0).toUpperCase()}</div>
+        <div class="nav-avatar" title="${userName}">${initialChar}</div>
         <button id="logout-btn" class="nav-btn-secondary" style="padding: 0.4rem 1rem; border-radius: 30px; cursor: pointer;">Logout</button>
       </li>
     `;
@@ -88,9 +100,18 @@ function guardProtectedPages() {
   ];
 
   const isProtected = protectedPaths.some((p) => path.includes(p));
+  let parsedUser = null;
+
+  if (userString) {
+    try {
+      parsedUser = JSON.parse(userString);
+    } catch (e) {
+      console.error('Failed to parse user string in guardProtectedPages:', e);
+    }
+  }
 
   if (isProtected) {
-    if (!token || !userString) {
+    if (!token || !parsedUser) {
       showToast('Please sign in to access this page', 'error');
       setTimeout(() => {
         window.location.href = '/login.html';
@@ -98,23 +119,20 @@ function guardProtectedPages() {
       return;
     }
 
-    const user = JSON.parse(userString);
-
     // Seeker trying to access employer actions
-    if (user.role === 'seeker' && (path.includes('employer-dashboard') || path.includes('post-job'))) {
+    if (parsedUser.role === 'seeker' && (path.includes('employer-dashboard') || path.includes('post-job'))) {
       window.location.href = '/seeker-dashboard.html';
     }
 
     // Employer trying to access seeker dashboard
-    if (user.role === 'employer' && path.includes('seeker-dashboard')) {
+    if (parsedUser.role === 'employer' && path.includes('seeker-dashboard')) {
       window.location.href = '/employer-dashboard.html';
     }
   }
 
   // Redirect logged in users away from auth pages
-  if (token && userString && (path.includes('login') || path.includes('register'))) {
-    const user = JSON.parse(userString);
-    window.location.href = user.role === 'employer' ? '/employer-dashboard.html' : '/seeker-dashboard.html';
+  if (token && parsedUser && (path.includes('login') || path.includes('register'))) {
+    window.location.href = parsedUser.role === 'employer' ? '/employer-dashboard.html' : '/seeker-dashboard.html';
   }
 }
 
@@ -219,10 +237,26 @@ function initPasswordVisibilityToggles() {
 
 // Handle Form Submissions (Login / Register)
 document.addEventListener('DOMContentLoaded', () => {
-  updateNavbar();
-  guardProtectedPages();
-  initInactivityTimer();
-  initPasswordVisibilityToggles();
+  try {
+    updateNavbar();
+  } catch (e) {
+    console.error('Error initializing navbar:', e);
+  }
+  try {
+    guardProtectedPages();
+  } catch (e) {
+    console.error('Error guarding protected pages:', e);
+  }
+  try {
+    initInactivityTimer();
+  } catch (e) {
+    console.error('Error initializing inactivity timer:', e);
+  }
+  try {
+    initPasswordVisibilityToggles();
+  } catch (e) {
+    console.error('Error initializing password visibility toggles:', e);
+  }
 
   // Register Role Selection Toggle
   const roleOptions = document.querySelectorAll('.role-option');

@@ -90,8 +90,14 @@ function setupNotificationMarkAllRead() {
 async function initSeekerDashboard() {
   const userString = localStorage.getItem('user');
   if (userString) {
-    const user = JSON.parse(userString);
-    document.getElementById('welcome-seeker-title').innerText = `Welcome, ${user.name}`;
+    try {
+      const user = JSON.parse(userString);
+      if (user && user.name) {
+        document.getElementById('welcome-seeker-title').innerText = `Welcome, ${user.name}`;
+      }
+    } catch (e) {
+      console.error('Failed to parse user string in seeker dashboard:', e);
+    }
   }
 
   const container = document.getElementById('applications-list-container');
@@ -164,9 +170,17 @@ async function initEmployerDashboard() {
   const userString = localStorage.getItem('user');
   let employerId = '';
   if (userString) {
-    const user = JSON.parse(userString);
-    employerId = user.id;
-    document.getElementById('welcome-employer-title').innerText = `Recruiter Panel: ${user.name}`;
+    try {
+      const user = JSON.parse(userString);
+      if (user) {
+        employerId = user.id || '';
+        if (user.name) {
+          document.getElementById('welcome-employer-title').innerText = `Recruiter Panel: ${user.name}`;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to parse user string in employer dashboard:', e);
+    }
   }
 
   // Setup tabs toggling
@@ -252,7 +266,14 @@ async function deleteJobListing(jobId) {
       // Re-trigger reload
       const userString = localStorage.getItem('user');
       if (userString) {
-        loadEmployerJobs(JSON.parse(userString).id);
+        try {
+          const user = JSON.parse(userString);
+          if (user && user.id) {
+            loadEmployerJobs(user.id);
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
     } else {
       showToast(data.message || 'Failed to delete listing', 'error');
